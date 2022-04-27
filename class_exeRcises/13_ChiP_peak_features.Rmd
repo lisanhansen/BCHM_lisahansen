@@ -47,7 +47,7 @@ gencode_gr <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/data/gen
 # Finally nump_eaks_df
 num_peaks_df <- read_csv("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/class_exercises/analysis/12_peak_features/num_peaks_df.csv")
 
- num_peaks_df <- read_csv("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/class_exeRcises/analysis/12_peak_features/num_peaks_df.csv")
+#num_peaks_df <- read_csv("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/class_exeRcises/analysis/12_peak_features/num_peaks_df.csv")
 
 ```
 
@@ -56,7 +56,7 @@ Now we will import the GRanges of genome annotations:
 ```{R importing genome featgures}
 
 # lncRNA and mRNA promoters
-lncrna_mrna_promoters <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/hast3043/bchm_halley/class_exercises/analysis/11_consensus_peaks/gene_annotation_files/lncRNA_mrna_promoters.gtf")
+  lncrna_mrna_promoters <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/class_exeRcises/analysis/11_consensus_peaks/gene_annotation_files/lncRNA_mrna_promoters.gtf")
 
 # lncrna_mrna_promoters <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/class_exeRcises/analysis/11_consensus_peaks/gene_annotation_files/lncRNA_mrna_promoters.gtf")
 
@@ -78,7 +78,6 @@ mrna_gene_ids <- lncrna_mrna_genebody$gene_id[lncrna_mrna_genebody$gene_type == 
 
 
 # creating a data frame of peak overlaps.
-Now we are going to start to make a really useful data-frame (df).
 For each property/overlap we will make a new column. 
 
 ```{r creating an overlap features data.frame}

@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 options(stringsAsFactors = FALSE)
 library(tidyverse)
 # library(tximport)
+#install.packages("https://cran.r-project.org/src/contrib/Archive/locfit/locfit_1.5-9.4.tar.gz", repos=NULL, type="source")
+#BiocManager::install("DESeq2") 
 library(DESeq2)
 library(ggrepel)
 library(pheatmap)
@@ -57,7 +59,7 @@ Now the run.sh file that gives nf-core/rnaseq all the instructions for nextflow 
 #SBATCH -p long
 #SBATCH --job-name=HEPG2_rna_seq
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=halley.steiner@colorado.edu
+#SBATCH --mail-user=liha5236@colorado.edu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=6gb
@@ -121,7 +123,7 @@ Go to /analysis/18_running_nf_core folder, nano and paste in below
 #SBATCH -p long
 #SBATCH --job-name=HEPG2_rna_seq
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=halley.steiner@colorado.edu
+#SBATCH --mail-user=liha5236@colorado.edu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=6gb
@@ -181,7 +183,7 @@ RUN.SH (DOES NOT REQUIRE DESIGN FILE) for NF_CORE 1.4.2
 #SBATCH -p long
 #SBATCH --job-name=HEPG2_rna_seq
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=your_email
+#SBATCH --mail-user=liha5236@colorado.edu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=6gb

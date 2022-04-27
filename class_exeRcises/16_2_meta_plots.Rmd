@@ -1,6 +1,6 @@
 ---
 title: "16_meta_plots"
-author: "JR"
+author: "LisaH"
 date: "11/26/2021"
 output: html_document
 editor_options: 
@@ -22,9 +22,9 @@ library(ComplexHeatmap)
 # BiocManager::install("circlize")
 library(circlize)
 
-source("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/util/plotting_functions.R")
-source("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/util/intersect_functions.R")
-source("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/util/_setup.R")
+source("../../../../util/plotting_functions.R")
+source("../../../../util/intersect_functions.R")
+source("../../../../util/_setup.R")
 ```
 
 Today our goal is to make "meta plots" of promoter binding profiles.
@@ -267,8 +267,8 @@ peak_sums <- colSums(promoter_peak_matrix)
 peak_dens <- peak_sums/sum(peak_sums)
 
 # Create a data frame in order to plot this. 
-metaplot_df <- data.frame(x = -3e3:(3e3-1), dens = peak_dens)
-#THIS IS WHERE WE WOULD CHANGE THE SIZE
+metaplot_df <- data.frame(x = -1e3:(1e3-1), dens = peak_dens)
+#CHANGED THIS LINKE TO 1KB
 # now we have a data frame of cols as base in promoter window
 # rows as each promoter window. Normalize by percentage of total binding events.
 ```
@@ -297,11 +297,12 @@ ggplot(metaplot_df, aes(x = x, y = dens)) +
   geom_vline(xintercept = 0, lty = 2) + 
   geom_line(size = 1.5) + 
   ggtitle("POLR2A Promoter Metaplot") + 
-  scale_x_continuous(breaks = c(-3000, 0, 3000),
-                     labels = c("-3kb", "TSS", "+3kb"),
+  scale_x_continuous(breaks = c(-1000, 0, 1000),
+                     labels = c("-1kb", "TSS", "+1kb"),
                      name = "") + 
   ylab("Peak frequency")
 ggsave("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/class_exeRcises/analysis/16_meta_plots/figures/POLR2A_promoter_metaplot.pdf")
+#CHANGED
 ```
 
 # Use this function to make separate plots for lncRNA and mRNA
@@ -320,8 +321,8 @@ genes <- gencode_gr[gencode_gr$type == "gene"]
 
 lncrna_genes <- genes[genes$gene_type == "lncRNA"]
 
-lncrna_promoters <- promoters(lncrna_genes, upstream = 3e3, downstream = 3e3)
-#CHANGE THIS TOO
+lncrna_promoters <- promoters(lncrna_genes, upstream = 1e3, downstream = 1e3)
+#CHANGED
 
 # Now we can use profile_tss
 # POLR2A meta-plot / feel free to pick any other gene
@@ -334,8 +335,8 @@ ggplot(lncrna_metaplot_profile, aes(x = x, y = dens)) +
 # mRNA promoter profiles
 mrna_genes <- genes[genes$gene_type == "protein_coding"]
 
-mrna_promoters <- promoters(mrna_genes, upstream = 3e3, downstream = 3e3)
-#CHANGE THIS TOO
+mrna_promoters <- promoters(mrna_genes, upstream = 1e3, downstream = 1e3)
+#CHANGED
 mrna_metaplot_profile <- profile_tss(filtered_consensus_peaks[["POLR2A"]], mrna_promoters)
 
 ggplot(mrna_metaplot_profile, aes(x = x, y = dens)) + 
@@ -353,12 +354,12 @@ ggplot(combined_metaplot_profile,
   geom_vline(xintercept = 0, lty = 2) + 
   geom_line(size = 1.5) + 
   ggtitle("POLR2A Promoter Metaplot") + 
-  scale_x_continuous(breaks = c(-3000, 0, 3000),
-                     labels = c("-3kb", "TSS", "+3kb"),
+  scale_x_continuous(breaks = c(-1000, 0, 1000),
+                     labels = c("-1kb", "TSS", "+1kb"),
                      name = "") + 
   ylab("Peak frequency") + 
   scale_color_manual(values = c("#424242","#a8404c"))
-
+#CHANGED
 # combinig on the same plot shows the difference in binding !
 ```
 
@@ -373,9 +374,9 @@ Let's put all this into a funciton so we can call it later conveniently.
 # promoters = made from GRanges "promoters" function
 profile_tss <- function(peaks, 
                         promoters_gr,
-                        upstream = 3e3,
-                        downstream = 3e3) {
-#CHANGE THIS
+                        upstream = 1e3,
+                        downstream = 1e3) {
+#CHANGED
 # performing coverage function
 # this converst each chromosome to RLE
 # where 0 is no peak and 1 is a peak
@@ -443,7 +444,7 @@ promoter_peak_matrix[minus_idx,] <- promoter_peak_matrix[minus_idx,
 # calculating the density at each position in the promoter window
   peak_dens <- peak_sums/sum(peak_sums)
 
-# making it go from -3K to + 3K and creating a df
+# making it go from -1K to + 1K and creating a df
   metaplot_df <- data.frame(x = -upstream:(downstream-1),
                             dens = peak_dens)
   
@@ -465,8 +466,8 @@ metaplot_df <- data.frame(x = integer(), dens = numeric(), dbp = character())
 # Reminder of parameters
 # profile_tss <- function(peaks, ====== filtered_consensus_peaks
 #                         promoters_gr ===== needs to be created to run,
-#                         upstream = 3e3,
-#                         downstream = 3e3)
+#                         upstream = 1e3,
+#                         downstream = 1e3)
 
 # Writting a for loop to calculate promoter coverage for all DBPs:
 for(i in c(1:390, 392:length(filtered_consensus_peaks))) {
@@ -479,7 +480,7 @@ for(i in c(1:390, 392:length(filtered_consensus_peaks))) {
 }
 
 # write_rds(metaplot_df, "metaplot_df.rds")
-write_rds(metaplot_df, "/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/class_exeRcises/analysis/16_meta_plots/metaplot_df_final_test.rds")
+write_rds(metaplot_df, "/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/class_exeRcises/analysis/16_2_meta_plots/metaplot_df_final_test.rds")
 
 
 ```

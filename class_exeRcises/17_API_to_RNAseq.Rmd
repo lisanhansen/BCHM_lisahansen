@@ -21,7 +21,7 @@ library(janitor)
 #install.packages("purr")
 library(purrr)
 
-source("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/util/encode_functions.R")
+source("/scratch/Shares/rinnclass/CLASS_2022/LisaH/BCHM_lisahansen/util/encode_functions.R")
 ```
 
 Goal: to downlaod a RNAseq data from HEPG2 that is fractionated by cellular compartment
@@ -138,7 +138,7 @@ This will get us all the information associated with the files in URL above.
 ## This will generate a request URL in the format that ENCODE requires to retrieve each of the columns listed in the field default parameter (accession, read_count, md5sum, etc.)
 
 # first let's set up the function and it's parameters
-contstruct_query <- function(experiment_accession,
+construct_query <- function(experiment_accession,
                              base_url = "https://www.encodeproject.org/report.tsv?",
                              file_format = "fastq",
                              type = "File",
@@ -192,7 +192,7 @@ encode_file_info <- function(experiment_accession,
   # Now we are creating a url that encode will understand
   path <- "report.tsv?"
   base_url <- modify_url("https://www.encodeproject.org/", path = path)
-  url <- contstruct_query(experiment_accession,
+  url <- construct_query(experiment_accession,
                           base_url = base_url,
                           file_format,
                           type,
@@ -627,7 +627,7 @@ We'll do this in the RNAseq II.
 ```{r encode functions}
 
 ## This will generate a request URL in the format that ENCODE requires to retrieve each of the columns listed in the field default parameter (accession, read_count, md5sum, etc.)
-contstruct_query <- function(experiment_accession,
+construct_query <- function(experiment_accession,
                              base_url = "https://www.encodeproject.org/report.tsv?",
                              file_format = "fastq",
                              type = "File",
@@ -657,7 +657,7 @@ encode_file_info <- function(experiment_accession,
                                         "paired_with", "replicate", "target")) {
   path <- "report.tsv?"
   base_url <- modify_url("https://www.encodeproject.org/", path = path)
-  url <- contstruct_query(experiment_accession,
+  url <- construct_query(experiment_accession,
                           base_url = base_url,
                           file_format,
                           type,

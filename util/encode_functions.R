@@ -2,7 +2,7 @@ library(tidyverse)
 library(httr)
 library(janitor)
 
-contstruct_query <- function(experiment_accession,
+construct_query <- function(experiment_accession,
                              base_url = "https://www.encodeproject.org/report.tsv?",
                              file_format = "fastq",
                              type = "File",
@@ -30,7 +30,7 @@ encode_file_info <- function(experiment_accession,
                                         "paired_with", "replicate", "target")) {
   path <- "report.tsv?"
   base_url <- modify_url("https://www.encodeproject.org/", path = path)
-  url <- contstruct_query(experiment_accession,
+  url <- construct_query(experiment_accession,
                           base_url = base_url,
                           file_format,
                           type,
@@ -54,7 +54,7 @@ encode_file_info <- function(experiment_accession,
   if (http_type(resp) != "text/tsv") {
     stop("API did not return text/tsv", call. = FALSE)
   }
-  body <- read_tsv(content(resp, "text"), skip = 1) %>%
+  body <- read_tsv(content(resp), skip = 1) %>%
     clean_names()
   return(body)
 }
